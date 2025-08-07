@@ -1,103 +1,225 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination, Autoplay } from "swiper/modules";
+import { motion } from "framer-motion";
+import Link from 'next/link';
 import Image from "next/image";
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+const features = [
+  {
+    title: "Transparency",
+    content:
+      "Unlike some of its counterparts, as a quality yield aggregator, Corepound stands out with greater transparency. Our frontend is seamlessly synchronized with on-chain data, keeping users informed at all times. Rewards such as points, their calculation rules are made explicit. All performance fees are included in the APY with no hidden catch.",
+    side: "left",
+  },
+  {
+    title: "Sustainability",
+    content:
+      "Corepound incorporates a unique burning mechanism known as CoreChest, combined with a dynamic point system. This creates a constant deflationary effect on circulation, preserving long-term value for users and the overall ecosystem.",
+    side: "right",
+  },
+  {
+    title: "Easy Allocation",
+    content:
+      "Corepound simplifies the process of allocating your assets across various vaults. With an intuitive interface and smart contract integrations, users can easily deposit, withdraw, or rebalance their positions without complex steps or technical barriers.",
+    side: "left",
+  },
+];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+const Home = () => {
+  const pathname = usePathname();
+
+  const navItems = [
+    { name: "Home", href: "/" },
+    { name: "Vault", href: "/vault" },
+    { name: "Point", href: "/point" },
+    { name: "Doc", href: "/doc" },
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gradient-to-tr from-[#0f0f0f] via-[#1a1a1a] to-[#0f0f0f] text-gray-200 font-sans">
+      {/* Header */}
+      <header className="fixed top-0 left-0 w-full bg-[#1a1a1a] bg-opacity-90 text-white flex items-center justify-between px-8 py-4 z-10 shadow-lg border-b border-[#2a2a2a] backdrop-blur-sm">
+        <div className="flex items-center gap-20">
+          <div className="text-2xl font-extrabold text-[#f59e0b] tracking-widest drop-shadow-[0_0_4px_#f59e0b]">
+            VAULTION
+          </div>
+
+          <nav className="flex items-center gap-12">
+            {navItems.map(({ name, href }) => {
+              const isActive = pathname === href;
+              return (
+                <Link
+                  key={name}
+                  href={href}
+                  className={`font-bold transition-transform duration-300 hover:text-[#f59e0b] hover:drop-shadow-[0_0_4px_#f59e0b] hover:scale-105 ${
+                    isActive
+                      ? "text-[#f59e0b] drop-shadow-[0_0_4px_#f59e0b]"
+                      : "text-gray-300"
+                  }`}
+                >
+                  {name}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+
+        <div className="space-x-4">
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="https://app-v4.glyph.exchange/swap"
+            className="font-bold px-4 py-2 rounded-full bg-[#222] hover:bg-[#f59e0b] text-[#f59e0b] hover:text-white shadow-inner transition duration-300"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            Swap on Glyph
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            id="connect-wallet"
+            className="font-bold px-4 py-2 rounded-full bg-[#222] hover:bg-[#f59e0b] text-[#f59e0b] hover:text-white shadow-inner transition duration-300"
           >
-            Read our docs
-          </a>
+            Connect Wallet
+          </button>
+        </div>
+      </header>
+
+      {/* Main */}
+      <main className="flex-grow pt-32 px-4 flex flex-col items-center justify-center">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-extrabold text-[#f59e0b] drop-shadow-[0_0_2px_#f59e0b]">
+            Welcome to VAULTION
+          </h1>
+          <p className="mt-4 text-gray-400 text-lg">
+            A secure and stylish decentralized vault for the future.
+          </p>
+        </div>
+
+        {/* Step Carousel */}
+        <div className="w-full max-w-3xl px-4">
+          <Swiper
+            modules={[Pagination, Autoplay]}
+            spaceBetween={30}
+            pagination={{ clickable: true }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: false,
+            }}
+            className="rounded-xl bg-[#1a1a1a] shadow-lg border border-[#2a2a2a]"
+          >
+            {["Connect your wallet securely via the Connect Wallet button.",
+              "Navigate to the Vault tab to create or manage your storage.",
+              "Use Point system to track your vault interactions.",
+              "View and share your documents from the Doc section.",
+            ].map((desc, i) => (
+              <SwiperSlide key={i}>
+                <div className="p-8 text-center">
+                  <h2 className="text-3xl font-bold text-[#f59e0b] mb-4">
+                    Step {i + 1}
+                  </h2>
+                  <p className="text-gray-300 text-lg">{desc}</p>
+                </div>
+              </SwiperSlide>
+            ))}
+
+            <SwiperSlide>
+              <div className="p-8 text-center flex flex-col items-center justify-center">
+                <h2 className="text-3xl font-bold text-[#f59e0b] mb-4">
+                  Ready to Get Started?
+                </h2>
+                <p className="text-gray-300 text-lg mb-6">
+                  Start securing your assets with Vaultion today.
+                </p>
+                <a
+                  href="/vault"
+                  className="inline-block px-6 py-3 rounded-full bg-[#f59e0b] text-[#1a1a1a] font-bold hover:bg-[#e69c07] transition duration-300"
+                >
+                  Get Started
+                </a>
+              </div>
+            </SwiperSlide>
+          </Swiper>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Vaultion Features */}
+      <section className="w-full max-w-6xl mx-auto mt-20 flex flex-col gap-24 px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-5xl md:text-6xl font-extrabold tracking-tight text-orange-400 drop-shadow-lg">
+            Vaultion Features
+          </h2>
+        </div>
+
+        {features.map((item, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.4 }}
+            className={`
+              flex flex-col md:flex-row ${item.side === 'right' ? 'md:flex-row-reverse' : ''}
+              items-center md:justify-between gap-8 md:gap-12
+              bg-[#1a1a1a] shadow-xl rounded-3xl border border-orange-500/30 backdrop-blur
+              py-16 md:px-20 px-6
+            `}
+          >
+            <div className="md:w-1/2">
+              <h3 className="text-4xl md:text-5xl font-bold text-[#f59e0b] mb-4 drop-shadow-md">
+                {item.title}
+              </h3>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                {item.content}
+              </p>
+            </div>
+            <div className="hidden md:block md:w-1/2"></div>
+          </motion.div>
+        ))}
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#1a1a1a] text-gray-400 p-6 border-t border-[#2a2a2a] w-full mt-auto backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex gap-4">
+            {[
+              { name: "Discord", src: "/icon/discord.png", link: "#" },
+              { name: "Facebook", src: "/icon/facebook.png", link: "#" },
+              { name: "X", src: "/icon/x.png", link: "#" },
+            ].map((platform, index) => (
+              <a
+                key={index}
+                href={platform.link}
+                className="flex items-center gap-2 hover:opacity-80 transition duration-300"
+              >
+                <img
+                  src={platform.src}
+                  alt={platform.name}
+                  width={20}
+                  height={20}
+                  className="filter-none"
+                />
+                <span>{platform.name}</span>
+              </a>
+            ))}
+          </div>
+
+          <div className="flex space-x-6">
+            <a href="#" className="hover:text-[#f59e0b] transition duration-300">
+              Terms & Conditions
+            </a>
+            <a href="#" className="hover:text-[#f59e0b] transition duration-300">
+              Privacy Policy
+            </a>
+          </div>
+        </div>
+        <p className="text-center mt-4 text-sm text-gray-500">
+          © 2025 by TrackPlate. Powered and secured by Wikx
+        </p>
       </footer>
     </div>
   );
-}
+};
+
+export default Home;
