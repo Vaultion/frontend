@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Vault", href: "/vault" },
-  { name: "Point", href: "/point" },
+  { name: "Allocation", href: "/allocation" },
   { name: "Doc", href: "/doc" },
 ];
 
@@ -123,7 +123,6 @@ export default function VaultPage() {
                 <th className="p-5 text-gray-400 font-semibold">TVL</th>
                 <th className="p-5 text-gray-400 font-semibold">APY</th>
                 <th className="p-5 text-gray-400 font-semibold">Earned</th>
-                <th className="p-5 text-gray-400 font-semibold">Points</th>
                 <th className="p-5 text-gray-400 font-semibold">Deposited</th>
                 <th className="p-5 text-gray-400 font-semibold">Action</th>
               </tr>
@@ -141,7 +140,6 @@ export default function VaultPage() {
                       <td className="p-5 text-gray-300">{vault.tvl}</td>
                       <td className="p-5 text-[#f59e0b] font-bold">{vault.apy}</td>
                       <td className="p-5 text-gray-300">$0</td>
-                      <td className="p-5 text-gray-300">0</td>
                       <td className="p-5 text-gray-300">$0</td>
                       <td className="p-5">
                         <div className="flex gap-3">
@@ -225,7 +223,7 @@ export default function VaultPage() {
         ))}
       </div>
       {/* Form */}
-      <div className="space-y-4">
+            <div className="space-y-4">
         <div className="flex items-center gap-3 bg-[#222] rounded-lg px-4 py-3">
           <div className="h-6 w-6 bg-gray-500 rounded-full" />
           <span className="text-white font-bold">{activeTransaction}</span>
@@ -239,7 +237,7 @@ export default function VaultPage() {
           <button className="text-sm text-[#f59e0b] font-bold">MAX</button>
         </div>
         <button className="w-full bg-[#f59e0b] hover:bg-[#d97706] text-black font-bold py-3 rounded-lg transition duration-300">
-          Deposit
+          {transactionTab}
         </button>
         <div className="text-right text-sm text-gray-400">
           Available Balance: 0

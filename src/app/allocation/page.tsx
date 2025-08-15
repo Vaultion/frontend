@@ -2,16 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from 'react';
 
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Vault", href: "/vault" },
-  { name: "Point", href: "/point" },
+  { name: "Allocation", href: "/allocation" },
   { name: "Doc", href: "/doc" },
 ];
 
-export default function PoointPage() {
+export default function AllocationPage() {
   const pathname = usePathname();
+  const [sendToAnother, setSendToAnother] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0f0f0f] to-[#1a1a1a] text-white">
@@ -59,10 +61,83 @@ export default function PoointPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow pt-28 px-8">
-        <h1 className="text-4xl font-bold text-[#f59e0b] mb-4">Vault Page</h1>
-        <p className="text-gray-300">This is the vault page content area.</p>
-      </main>
+<main className="flex-grow flex items-center justify-center px-4 pt-36 pb-10">
+  <div className="w-full max-w-lg space-y-4">
+    {/* Judul dan Deskripsi DI LUAR border dan padding */}
+    <div>
+      <h1 className="text-3xl font-bold text-[#f59e0b]">Bridge</h1>
+      <p className="text-gray-400 text-sm">
+        Send LBTC across blockchain networks, based on the bridging security standards of Vaultion.
+      </p>
+    </div>
+
+    {/* Card utama */}
+    <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-2xl shadow-md p-6 md:p-8 space-y-6">
+      {/* FROM - TO */}
+      <div className="grid grid-cols-1 gap-4">
+        <div className="bg-[#111] border border-[#2a2a2a] rounded-lg p-4">
+          <label className="block text-sm text-gray-400 mb-2">From</label>
+          <select className="w-full bg-white text-black border border-gray-600 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f59e0b]">
+            <option value="usdt">USDT</option>
+            <option value="usdc">USDC</option>
+          </select>
+        </div>
+        <div className="bg-[#111] border border-[#2a2a2a] rounded-lg p-4">
+          <label className="block text-sm text-gray-400 mb-2">To</label>
+          <select className="w-full bg-white text-black border border-gray-600 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#f59e0b]">
+            <option value="usdt">USDT</option>
+            <option value="usdc">USDC</option> {/* Opsi tambahan */}
+          </select>
+        </div>
+      </div>
+
+      {/* AMOUNT */}
+      <div className="bg-[#111] border border-[#2a2a2a] rounded-lg p-4">
+        <label className="block text-sm text-gray-400 mb-2">Amount</label>
+        <div className="flex items-center gap-2">
+          <input
+            type="number"
+            placeholder="0"
+            className="flex-grow bg-transparent border border-gray-600 text-white p-2 rounded-md"
+          />
+        </div>
+        <p className="text-xs text-gray-500 mt-1">Balance: 0 LBTC</p>
+      </div>
+
+      {/* TOGGLE SEND TO OTHER ADDRESS */}
+      <div className="flex items-center justify-between bg-[#111] border border-[#2a2a2a] rounded-lg p-4">
+        <span className="text-gray-300 font-medium text-sm">Send to another address</span>
+        <button
+          onClick={() => setSendToAnother(!sendToAnother)}
+          className={`w-12 h-6 rounded-full transition duration-300 ${
+            sendToAnother ? 'bg-[#f59e0b]' : 'bg-gray-700'
+          }`}
+        >
+          <div
+            className={`w-5 h-5 bg-white rounded-full shadow-md transform transition ${
+              sendToAnother ? 'translate-x-6' : 'translate-x-1'
+            }`}
+          />
+        </button>
+      </div>
+
+      {/* INFO BOX */}
+      <div className="text-sm text-gray-400 bg-[#111] border border-[#2a2a2a] p-4 rounded-lg flex gap-2 items-start">
+        <span className="text-[#f59e0b] text-lg"></span>
+        <p>
+          All staking activities are fully transparent and traceable between BTC &amp; LBTC — Full details available in{' '}
+          <a href="#" className="underline hover:text-[#f59e0b]">our docs</a>.
+        </p>
+      </div>
+
+      {/* CONTINUE BUTTON */}
+      <button className="w-full py-3 bg-[#f59e0b] text-black font-bold rounded-full hover:brightness-110 transition">
+        Continue
+      </button>
+    </div>
+  </div>
+</main>
+
 
       {/* Footer */}
       <footer className="bg-[#1a1a1a] text-gray-400 p-6 border-t border-[#2a2a2a] w-full mt-auto backdrop-blur-sm">
