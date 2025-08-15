@@ -6,8 +6,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import { motion } from "framer-motion";
-import Link from 'next/link';
+import Link from "next/link";
 import Image from "next/image";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const features = [
   {
@@ -30,7 +31,7 @@ const features = [
   },
 ];
 
-const Home = () => {
+export default function Home() {
   const pathname = usePathname();
 
   const navItems = [
@@ -69,19 +70,75 @@ const Home = () => {
           </nav>
         </div>
 
-        <div className="space-x-4">
+        <div className="space-x-4 flex items-center ">
           <a
             href="https://app-v4.glyph.exchange/swap"
             className="font-bold px-4 py-2 rounded-full bg-[#222] hover:bg-[#f59e0b] text-[#f59e0b] hover:text-white shadow-inner transition duration-300"
           >
             Swap on Glyph
           </a>
-          <button
-            id="connect-wallet"
-            className="font-bold px-4 py-2 rounded-full bg-[#222] hover:bg-[#f59e0b] text-[#f59e0b] hover:text-white shadow-inner transition duration-300"
-          >
-            Connect Wallet
-          </button>
+
+          <ConnectButton.Custom>
+            {({
+              account,
+              chain,
+              openAccountModal,
+              openChainModal,
+              openConnectModal,
+              authenticationStatus,
+              mounted,
+            }) => {
+              const ready = mounted && authenticationStatus !== "loading";
+              const connected =
+                ready &&
+                account &&
+                chain &&
+                (!authenticationStatus ||
+                  authenticationStatus === "authenticated");
+
+              return (
+                <div
+                  {...(!ready && {
+                    "aria-hidden": true,
+                    style: {
+                      opacity: 0,
+                      pointerEvents: "none",
+                      userSelect: "none",
+                    },
+                  })}
+                >
+                  {!connected ? (
+                    <button
+                      onClick={openConnectModal}
+                      type="button"
+                      className="font-bold px-4 py-2 rounded-full bg-[#222] hover:bg-[#f59e0b] text-[#f59e0b] hover:text-white shadow-inner transition duration-300"
+                    >
+                      Connect Wallet
+                    </button>
+                  ) : chain.unsupported ? (
+                    <button
+                      onClick={openChainModal}
+                      type="button"
+                      className="bg-red-600 px-4 py-2 rounded-full text-white font-bold"
+                    >
+                      Wrong network
+                    </button>
+                  ) : (
+                    <button
+                      onClick={openAccountModal}
+                      type="button"
+                      className="font-bold px-4 py-2 rounded-full bg-[#222] hover:bg-[#f59e0b] text-[#f59e0b] hover:text-white shadow-inner transition duration-300"
+                    >
+                      {account.displayName}
+                      {account.displayBalance
+                        ? ` (${account.displayBalance})`
+                        : ""}
+                    </button>
+                  )}
+                </div>
+              );
+            }}
+          </ConnectButton.Custom>
         </div>
       </header>
 
@@ -109,7 +166,8 @@ const Home = () => {
             }}
             className="rounded-xl bg-[#1a1a1a] shadow-lg border border-[#2a2a2a]"
           >
-            {["Connect your wallet securely via the Connect Wallet button.",
+            {[
+              "Connect your wallet securely via the Connect Wallet button.",
               "Navigate to the Vault tab to create or manage your storage.",
               "Use Point system to track your vault interactions.",
               "View and share your documents from the Doc section.",
@@ -159,12 +217,9 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.4 }}
-            className={`
-              flex flex-col md:flex-row ${item.side === 'right' ? 'md:flex-row-reverse' : ''}
-              items-center md:justify-between gap-8 md:gap-12
-              bg-[#1a1a1a] shadow-xl rounded-3xl border border-orange-500/30 backdrop-blur
-              py-16 md:px-20 px-6
-            `}
+            className={`flex flex-col md:flex-row ${
+              item.side === "right" ? "md:flex-row-reverse" : ""
+            } items-center md:justify-between gap-8 md:gap-12 bg-[#1a1a1a] shadow-xl rounded-3xl border border-orange-500/30 backdrop-blur py-16 md:px-20 px-6`}
           >
             <div className="md:w-1/2">
               <h3 className="text-4xl md:text-5xl font-bold text-[#f59e0b] mb-4 drop-shadow-md">
@@ -220,6 +275,4 @@ const Home = () => {
       </footer>
     </div>
   );
-};
-
-export default Home;
+}
