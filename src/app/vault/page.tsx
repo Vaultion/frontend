@@ -41,47 +41,6 @@ export default function VaultPage() {
   const [activeTransaction, setActiveTransaction] = useState<string | null>(null);
   const [transactionTab, setTransactionTab] = useState<"Deposit" | "Withdraw">("Deposit");
 
-  return (
-    <div className="vault-page">
-      {vaults.map((vault) => (
-        <div key={vault.asset} className="vault-card">
-          <img src={vault.icon} alt={vault.asset} className="vault-icon" />
-          <h2>{vault.asset}</h2>
-          <p>TVL: {vault.tvl}</p>
-          <p>APY: {vault.apy}</p>
-          <p>{vault.strategy}</p>
-
-          <div className="vault-actions">
-            {/* Tombol Deposit hanya muncul jika bukan CORP */}
-            {vault.asset !== "CORP" && (
-              <button
-                onClick={() => {
-                  setActiveTransaction("Deposit");
-                  setOpenVault(vault.asset);
-                  setTransactionTab("Deposit");
-                }}
-                className="btn-deposit"
-              >
-                Deposit
-              </button>
-            )}
-
-            <button
-              onClick={() => {
-                setActiveTransaction("Withdraw");
-                setOpenVault(vault.asset);
-                setTransactionTab("Withdraw");
-              }}
-              className="btn-withdraw"
-            >
-              Withdraw
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-
   useEffect(() => {
     const style = document.createElement('style');
     style.innerHTML = `
@@ -90,7 +49,7 @@ export default function VaultPage() {
           opacity: 0;
           transform: translateY(12px);
         }
-        to {
+        to {  
           opacity: 1;
           transform: translateY(0);
         }
